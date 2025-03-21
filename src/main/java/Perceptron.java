@@ -7,17 +7,17 @@ public class Perceptron {
     static double bias;
     static double learningRate;
 
-    public static int predict(double[] testVector) {
+    public static int predict(Vector testVector) {
         double product = 0;
-        for (int i = 0; i < testVector.length; i++)
-            product += testVector[i] * weights[i];
+        for (int i = 0; i < testVector.components.length; i++)
+            product += testVector.components[i] * weights[i];
 
         if (product - bias >= 0) return 1;
         else return 0;
     }
 
     public static void updateWeights(Vector trainVector, int label) {
-        int prediction = predict(trainVector.components);
+        int prediction = predict(trainVector);
         for (int j = 0; j < weights.length; j++) {
             weights[j] += learningRate * (label - prediction) * trainVector.components[j];
         }
@@ -34,6 +34,21 @@ public class Perceptron {
         }
     }
 
+    public static String testVector(Vector testVector) {
+        return predict(testVector) == 0 ? "Iris-versicolor" : "Iris-virginica";
+    }
+
+    public static String testTestingSet(TestingSet testingSet) {
+        int correct = 0;
+        int total = testingSet.testingVectors.size();
+        for (Vector vector : testingSet.getTestingVectors()) {
+            if (vector.className.equals(testVector(vector))) correct++;
+        }
+
+        double accuracy = ((double) correct / total) * 100;
+        return String.format("Result accuracy: %.2f%%", accuracy);
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the number of test epochs for training: ");
@@ -44,14 +59,16 @@ public class Perceptron {
         fileName = "./src/main/java/perceptron.data";
 
         TrainingSet trainingSet = new TrainingSet(fileName);
+        TestingSet testingSet = new TestingSet(fileName);
         weights = new double[trainingSet.trainingVectors.getFirst().components.length];
         bias = 0;
         learningRate = 0;
 
         // random bias and initial weights
         bias = (Math.random() * 1) + 0;
-        for (double component : weights)
-            component = (Math.random() * 1) + 0;
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] = (Math.random() * 1) + 0;
+        }
 
         System.out.print("Learning rate: ");
         learningRate = sc.nextDouble();
@@ -60,5 +77,7 @@ public class Perceptron {
 
         System.out.println("Learned " + epochs + " epochs with " + weights.length + " weights");
         System.out.println(Arrays.toString(weights));
+
+        System.out.println(testTestingSet(testingSet));
     }
 }
