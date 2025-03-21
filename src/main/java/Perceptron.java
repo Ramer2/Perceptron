@@ -34,15 +34,12 @@ public class Perceptron {
         }
     }
 
-    public static String testVector(Vector testVector) {
-        return predict(testVector) == 0 ? "Iris-versicolor" : "Iris-virginica";
-    }
-
     public static String testTestingSet(TestingSet testingSet) {
         int correct = 0;
         int total = testingSet.testingVectors.size();
         for (Vector vector : testingSet.getTestingVectors()) {
-            if (vector.className.equals(testVector(vector))) correct++;
+            int vectorClass = vector.className.equals("Iris-versicolor") ? 0 : 1;
+            if (predict(vector) == vectorClass) correct++;
         }
 
         double accuracy = ((double) correct / total) * 100;
