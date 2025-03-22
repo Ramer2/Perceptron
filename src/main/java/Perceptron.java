@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 // Iris-versicolor = 0, Iris-virginica = 1
@@ -30,6 +31,7 @@ public class Perceptron {
             for (Vector vector : trainingSet.trainingVectors) {
                 int className = vector.className.equals("Iris-versicolor") ? 0 : 1;
                 updateWeights(vector, className);
+                Collections.shuffle(trainingSet.classes);
             }
         }
     }
@@ -51,20 +53,22 @@ public class Perceptron {
         System.out.print("Enter the number of test epochs for training: ");
         int epochs = sc.nextInt();
 
-        String fileName;
 //        fileName = sc.nextLine();
-        fileName = "./src/main/java/perceptron.data";
+        String trainingFileName = "./src/main/java/perceptron.data";
+        String testingFileName = "./src/main/java/perceptron.test.data";
 
-        TrainingSet trainingSet = new TrainingSet(fileName);
-        TestingSet testingSet = new TestingSet(fileName);
+        TrainingSet trainingSet = new TrainingSet(trainingFileName);
+        TestingSet testingSet = new TestingSet(testingFileName);
         weights = new double[trainingSet.trainingVectors.getFirst().components.length];
         bias = 0;
         learningRate = 0;
 
         // random bias and initial weights
-        bias = (Math.random() * 1) + 0;
+//        bias = (Math.random() * 1) + 0;
+        bias = Math.random();
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = (Math.random() * 1) + 0;
+//            weights[i] = (Math.random() * 1) + 0;
+            weights[i] = Math.random();
         }
 
         System.out.print("Learning rate: ");

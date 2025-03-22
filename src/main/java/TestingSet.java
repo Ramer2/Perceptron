@@ -9,14 +9,10 @@ public class TestingSet {
     String fileName;
 
     ArrayList<Vector> testingVectors;
-    ArrayList<String> testingSetClassNames;
-    ArrayList<String> classes;
 
     public TestingSet(String fileName) {
         this.fileName = fileName;
         testingVectors = new ArrayList<>();
-        testingSetClassNames = new ArrayList<>();
-        classes = new ArrayList<>();
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -31,12 +27,7 @@ public class TestingSet {
                     components[i] = Double.parseDouble(parts[i]);
                 }
 
-                // class
-                String className = parts[parts.length - 1];
-                if (!classes.contains(className)) classes.add(className);
-
-                testingVectors.add(new Vector(components));
-                testingSetClassNames.add(className);
+                testingVectors.add(new Vector(components, parts[parts.length - 1]));
             }
 
         } catch (FileNotFoundException e) {
@@ -50,10 +41,6 @@ public class TestingSet {
 
     public ArrayList<Vector> getTestingVectors() {
         return testingVectors;
-    }
-
-    public ArrayList<String> getTestingSetClassNames() {
-        return testingSetClassNames;
     }
 
     // resets the testing set

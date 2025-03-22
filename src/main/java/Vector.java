@@ -9,11 +9,6 @@ public class Vector {
         this.className = className;
     }
 
-    public Vector(double[] components) {
-        this.components = components;
-        this.className = "";
-    }
-
     public void setClassName(String className) {
         this.className = className;
     }

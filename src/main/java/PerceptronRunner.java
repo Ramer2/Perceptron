@@ -16,7 +16,7 @@ public class PerceptronRunner {
 
 
             // Loop over epochs from 10 to 1000 in increments of 10
-            for (int epochs = 10; epochs <= 10000; epochs += 10) {
+            for (int epochs = 10; epochs <= 1000; epochs += 10) {
                 // Reset weights and bias for each new epoch
                 double[] weights = new double[trainingSet.trainingVectors.getFirst().components.length];
                 double bias = (Math.random() * 1) + 0; // random bias
