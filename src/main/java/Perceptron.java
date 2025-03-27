@@ -53,7 +53,6 @@ public class Perceptron {
         System.out.print("Enter the number of test epochs for training: ");
         int epochs = sc.nextInt();
 
-//        fileName = sc.nextLine();
         String trainingFileName = "./src/main/java/perceptron.data";
         String testingFileName = "./src/main/java/perceptron.test.data";
 
@@ -64,10 +63,8 @@ public class Perceptron {
         learningRate = 0;
 
         // random bias and initial weights
-//        bias = (Math.random() * 1) + 0;
         bias = Math.random();
         for (int i = 0; i < weights.length; i++) {
-//            weights[i] = (Math.random() * 1) + 0;
             weights[i] = Math.random();
         }
 
@@ -79,6 +76,27 @@ public class Perceptron {
         System.out.println("Learned " + epochs + " epochs with " + weights.length + " weights");
         System.out.println(Arrays.toString(weights));
 
-        System.out.println(testTestingSet(testingSet));
+        while (true) {
+            System.out.print("Do you want to classify a single vector? (y/n): ");
+            String answer = sc.next();
+
+            if (answer.equals("y")) {
+                System.out.print("Input this vector like this (x; y; z;..): ");
+                String[] parts = sc.next().split(";");
+                double[] components = new double[parts.length];
+                for (int i = 0; i < parts.length; i++) components[i] = Double.parseDouble(parts[i]);
+                Vector vector = new Vector(components, "");
+
+                if (predict(vector) == 0) System.out.println("The vector was classified as Iris-versicolor.");
+                else System.out.println("The vector was classified as Iris-virginica.");
+            }
+
+            System.out.print("Do you want to go over the whole testing set to find out the accuracy? (y/n): ");
+            answer = sc.next();
+            if (answer.equals("y")) {
+                System.out.println(testTestingSet(testingSet));
+            }
+        }
+
     }
 }
